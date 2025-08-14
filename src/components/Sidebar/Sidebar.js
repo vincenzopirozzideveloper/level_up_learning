@@ -50,6 +50,9 @@ function Sidebar(props) {
       if (prop.redirect) {
         return null;
       }
+      if (prop.invisible || prop.hideInSidebar) {
+        return null;
+      }
       if (prop.category) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
@@ -271,6 +274,9 @@ export function SidebarResponsive(props) {
 
     return routes.map((prop, key) => {
       if (prop.redirect) {
+        return null;
+      }
+      if (prop.invisible || prop.hideInSidebar) {
         return null;
       }
       if (prop.category) {

@@ -12,6 +12,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 // Custom Chakra theme
 import theme from "theme/themeAdmin.js";
+import { LearningProvider } from "context/LearningContext";
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
 // Custom components
 import MainPanel from "../components/Layout/MainPanel";
@@ -98,9 +99,10 @@ export default function Dashboard(props) {
   // Chakra Color Mode
   return (
     <ChakraProvider theme={theme} resetCss={false}>
+      <LearningProvider>
       <Sidebar
         routes={routes}
-        logoText={"VISION UI FREE"}
+        logoText={"LEVEL UP LEARN"}
         display='none'
         sidebarVariant={sidebarVariant}
         {...rest}
@@ -114,7 +116,7 @@ export default function Dashboard(props) {
         <Portal>
           <AdminNavbar
             onOpen={onOpen}
-            logoText={"VISION UI FREE"}
+            logoText={"VLEVEL UP LEARN"}
             brandText={getActiveRoute(routes)}
             secondary={getActiveNavbar(routes)}
             fixed={fixed}
@@ -151,6 +153,7 @@ export default function Dashboard(props) {
           onTransparent={() => setSidebarVariant("transparent")}
         />
       </MainPanel>
+      </LearningProvider>
     </ChakraProvider>
   );
 }

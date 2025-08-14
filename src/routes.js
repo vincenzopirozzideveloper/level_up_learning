@@ -7,6 +7,8 @@ import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
 import SignUp from "views/Pages/SignUp.js";
+import Courses from "views/Learning/Courses.js";
+import CourseDetail from "views/Learning/CourseDetail.js";
 
 import {
   HomeIcon,
@@ -24,6 +26,22 @@ var dashRoutes = [
     icon: <HomeIcon color='inherit' />,
     component: Dashboard,
     layout: "/admin",
+  },
+  {
+    path: "/learn",
+    name: "Learning",
+    icon: <RocketIcon color='inherit' />,
+    component: Courses,
+    layout: "/admin",
+  },
+  {
+    path: "/learn/:courseId",
+    name: "Corso",
+    icon: <RocketIcon color='inherit' />,
+    component: CourseDetail,
+    layout: "/admin",
+    secondaryNavbar: true,
+    invisible: true,
   },
   {
     path: "/tables",

@@ -27,9 +27,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import routes from "routes.js";
+import { useLearning } from "context/LearningContext";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
+  const { credits, accrual } = useLearning();
 
   // Chakra Color Mode
   let inputBg = "#0F1535";
@@ -48,6 +50,10 @@ export default function HeaderLinks(props) {
       w={{ sm: "100%", md: "auto" }}
       alignItems='center'
       flexDirection='row'>
+      <Button size='sm' variant='outline' colorScheme='yellow' mr='3'>
+        <Text me='2'>Crediti:</Text>
+        <Text fontWeight='bold'>{credits}</Text>
+      </Button>
       <InputGroup
         cursor='pointer'
         bg={inputBg}

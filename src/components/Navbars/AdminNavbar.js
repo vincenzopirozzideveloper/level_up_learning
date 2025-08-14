@@ -61,7 +61,9 @@ export default function AdminNavbar(props) {
       setScrolled(false);
     }
   };
-  window.addEventListener("scroll", changeNavbar);
+  if (typeof window !== 'undefined') {
+    window.addEventListener("scroll", changeNavbar);
+  }
   return (
     <Flex
       position={navbarPosition}
