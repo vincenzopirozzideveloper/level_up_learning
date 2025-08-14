@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Vision UI Free Chakra - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/vision-ui-free-chakra
-* Copyright 2021 Creative Tim (https://www.creative-tim.com/)
-* Licensed under MIT (https://github.com/creativetimofficial/vision-ui-free-chakra/blob/master LICENSE.md)
-
-* Design and Coded by Simmmple & Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 // Chakra imports
 import {
 	Avatar,
@@ -49,7 +33,7 @@ import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
 import LineChart from 'components/Charts/LineChart';
 import IconBox from 'components/Icons/IconBox';
-import { CarIcon, FulgerIcon, FulgerWhiteIcon } from 'components/Icons/Icons';
+import { CarIcon, FulgerIcon, FulgerWhiteIcon, LightningIcon } from 'components/Icons/Icons';
 import { Separator } from 'components/Separator/Separator';
 import React from 'react';
 import { BsArrowRight } from 'react-icons/bs';
@@ -237,7 +221,7 @@ function Profile() {
 									variant='vision'>
 									<CircularProgressLabel>
 										<Flex direction='column' justify='center' align='center'>
-											<LightningIcon w='14px' h='22px' mb='8px' />
+											<FulgerIcon w='14px' h='22px' mb='8px' />
 											<Text color='#fff' fontSize='36px' fontWeight='bold' mb='6px'>
 												68%
 											</Text>

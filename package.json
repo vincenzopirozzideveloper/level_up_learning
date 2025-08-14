@@ -1,5 +1,5 @@
 {
-  "name": "vision-dashboard-chakra",
+  "name": "level-up-learn",
   "version": "1.0.1",
   "private": true,
   "homepage": "https://demos.creative-tim.com/vision-ui-dashboard-chakra/#/",
@@ -15,7 +15,7 @@
     "@fontsource/raleway": "^4.5.0",
     "@fontsource/roboto": "^4.5.0",
     "ajv": "^8.17.1",
-    "apexcharts": "^3.27.3",
+    "apexcharts": "^4.0.0",
     "classnames": "2.3.1",
     "framer-motion": "^4.1.17",
     "match-sorter": "6.3.0",
