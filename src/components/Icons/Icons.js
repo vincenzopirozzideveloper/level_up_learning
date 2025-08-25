@@ -6,7 +6,7 @@ export const AdobexdLogo = createIcon({
   displayName: "AdobexdLogo",
   viewBox: "0 0 24 24",
   path: (
-    <g clip-path='url(#clip0)'>
+    <g clipPath='url(#clip0)'>
       <path
         d='M4.042 0h12.916A3.539 3.539 0 0120.5 3.542v12.416a3.539 3.539 0 01-3.542 3.542H4.042A3.539 3.539 0 01.5 15.958V3.542A3.539 3.539 0 014.042 0z'
         fill='#470137'
@@ -80,7 +80,7 @@ export const CreativeTimLogo = createIcon({
       <g
         id='logo-creative-tim-black'
         stroke='none'
-        stroke-width='1'
+        strokeWidth='1'
         fill='none'
         fill-rule='evenodd'>
         <g
@@ -137,7 +137,7 @@ export const DashboardLogo = createIcon({
   viewBox: "0 0 1000 257",
   path: (
     <g width='998' height='257' viewBox='0 0 998 257' fill='none'>
-      <g clip-path='url(#clip0)'>
+      <g clipPath='url(#clip0)'>
         <path
           d='M388.5 115.302C406.112 115.302 413.966 126.726 416.584 136.96L441.336 127.916C436.576 109.352 419.44 89.836 388.262 89.836C354.942 89.836 329 115.54 329 151.24C329 186.464 354.942 212.882 388.976 212.882C419.44 212.882 436.814 193.128 442.288 175.04L418.012 166.234C415.394 175.04 407.064 187.654 388.976 187.654C371.602 187.654 356.608 174.564 356.608 151.24C356.608 127.916 371.602 115.302 388.5 115.302Z'
           fill='currentColor'
@@ -230,15 +230,15 @@ export const GlobeIcon = createIcon({
         stroke='currentColor'
         fill='transparent'
         d='M11.25 2.109a9.14 9.14 0 100 18.281 9.14 9.14 0 000-18.281z'
-        stroke-width='.75'
-        stroke-miterlimit='10'
+        strokeWidth='.75'
+        strokeMiterlimit='10'
       />
       <path
         stroke='currentColor'
         fill='transparent'
         d='M11.25 2.109C8.698 2.109 6.3 6.2 6.3 11.249c0 5.048 2.4 9.14 4.951 9.14 2.552 0 4.951-4.092 4.951-9.14 0-5.048-2.399-9.14-4.95-9.14z'
-        stroke-width='.75'
-        stroke-miterlimit='10'
+        strokeWidth='.75'
+        strokeMiterlimit='10'
       />
       <path
         stroke='currentColor'
@@ -249,16 +249,16 @@ export const GlobeIcon = createIcon({
         stroke='currentColor'
         fill='transparent'
         d='M5.156 5.156C6.836 6.349 8.952 7.06 11.25 7.06c2.298 0 4.414-.711 6.094-1.904M17.344 17.344c-1.68-1.193-3.796-1.904-6.094-1.904-2.298 0-4.413.711-6.094 1.904'
-        stroke-width='.75'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         stroke='currentColor'
         fill='transparent'
         d='M11.25 2.109v18.28M20.39 11.249H2.11'
-        stroke-width='.75'
-        stroke-miterlimit='10'
+        strokeWidth='.75'
+        strokeMiterlimit='10'
       />
     </g>
   ),
@@ -296,7 +296,7 @@ export const InvisionLogo = createIcon({
   displayName: "InvisionLogo",
   viewBox: "0 0 24 24",
   path: (
-    <g clip-path='url(#clip0)'>
+    <g clipPath='url(#clip0)'>
       <path
         d='M18.687 0H2.313A1.813 1.813 0 00.5 1.811v16.374C.5 19.188 1.312 20 2.313 20h16.374a1.813 1.813 0 001.813-1.813V1.812A1.813 1.813 0 0018.687 0z'
         fill='#DC395F'
@@ -313,7 +313,7 @@ export const JiraLogo = createIcon({
   displayName: "JiraLogo",
   viewBox: "0 0 24 24",
   path: (
-    <g clip-path='url(#clip0)'>
+    <g clipPath='url(#clip0)'>
       <path
         d='M20.26 10.42l-8.863-8.93-.86-.865-6.67 6.722L.814 10.42a.827.827 0 000 1.162l6.096 6.14 3.627 3.654 6.67-6.722.105-.104 2.947-2.964a.824.824 0 000-1.166zm-9.722 3.649L7.493 11l3.045-3.068L13.582 11l-3.044 3.068z'
         fill='#2684FF'
@@ -449,7 +449,7 @@ export const SpotifyLogo = createIcon({
   displayName: "SpotifyLogo",
   viewBox: "0 0 24 24",
   path: (
-    <g clip-path='url(#clip0)'>
+    <g clipPath='url(#clip0)'>
       <path
         d='M10.5 0C4.977 0 .5 4.477.5 10s4.477 10 10 10 10-4.477 10-10c0-5.522-4.477-10-10-10zm4.586 14.422a.623.623 0 01-.857.208c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 11-.277-1.216c3.808-.87 7.076-.495 9.712 1.115.294.181.387.564.207.857zm1.223-2.722a.78.78 0 01-1.072.257c-2.687-1.652-6.786-2.13-9.965-1.166a.78.78 0 01-.973-.519.781.781 0 01.52-.972c3.632-1.102 8.147-.569 11.233 1.329a.78.78 0 01.258 1.072zm.106-2.835C13.19 6.95 7.875 6.775 4.797 7.708a.935.935 0 11-.543-1.79c3.533-1.072 9.404-.865 13.115 1.338a.935.935 0 01-.954 1.609z'
         fill='#2EBD59'
@@ -550,9 +550,9 @@ export const GraphIcon = createIcon({
       <path
         d='M1 8.2C1.70238 11.8 4.5 18.5 11 18C17.5 17.5 18.2786 1 29.6571 1C41.0357 1 41.0357 20.0286 60 3.57143'
         stroke='white'
-        stroke-width='2'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   ),

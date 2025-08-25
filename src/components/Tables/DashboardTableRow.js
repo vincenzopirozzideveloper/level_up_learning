@@ -33,9 +33,10 @@ function DashboardTableRow(props) {
 
       <Td borderBottomColor='#56577A' border={lastItem ? "none" : null}>
         <AvatarGroup size='xs' showBorder={false}>
-          {members.map((member) => {
+          {members.map((member, index) => {
             return (
               <Avatar
+                key={index}
                 name='Ryan Florence'
                 src={member}
                 showBorder={false}
