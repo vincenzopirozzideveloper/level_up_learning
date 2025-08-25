@@ -1,4 +1,4 @@
-import React, { useState, useRef, Suspense } from "react";
+import React, { useState, useRef, Suspense, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -63,7 +63,7 @@ function Loader() {
 }
 
 // Character Section Component
-function CharacterSection({ index, isActive, onSelect, characterData, scrollProgress }) {
+function CharacterSection({ index, isActive, onSelect, characterData }) {
   // Select the correct GLB file based on index
   const modelUrl = `/vision-ui-dashboard-chakra/character_${index + 1}.glb`;
   
@@ -310,7 +310,7 @@ function CharacterSection({ index, isActive, onSelect, characterData, scrollProg
 export default function CharacterSelection({ onComplete }) {
   const [activeSection, setActiveSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const containerRef = useRef();
+  const scrollContainerRef = useRef();
 
   // Character data (placeholder - same model for now)
   const characters = [
@@ -320,19 +320,78 @@ export default function CharacterSelection({ onComplete }) {
     { name: "Paladin", description: "Holy warrior, protector of the realm" },
   ];
 
-  // Handle scroll to detect active section with debounce for smoothness
+  // Simple scroll tracking
   const handleScroll = () => {
-    if (containerRef.current) {
-      const scrollTop = containerRef.current.scrollTop;
+    if (scrollContainerRef.current) {
+      const scrollTop = scrollContainerRef.current.scrollTop;
       const windowHeight = window.innerHeight;
       const newActiveSection = Math.round(scrollTop / windowHeight);
       
-      // Only update if section actually changed
       if (newActiveSection !== activeSection) {
         setActiveSection(newActiveSection);
       }
     }
   };
+  
+  // Custom slow scroll with manual snap
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    let isScrolling = false;
+    let scrollTimeout;
+    
+    const handleWheel = (e) => {
+      e.preventDefault();
+      
+      // Get current position
+      const currentSection = Math.round(container.scrollTop / window.innerHeight);
+      
+      // Determine direction
+      const direction = e.deltaY > 0 ? 1 : -1;
+      
+      // Calculate target section
+      const targetSection = Math.max(0, Math.min(currentSection + direction, characters.length - 1));
+      
+      // Only scroll if not already scrolling and target is different
+      if (!isScrolling && targetSection !== currentSection) {
+        isScrolling = true;
+        
+        // Slow smooth scroll to target
+        const targetPosition = targetSection * window.innerHeight;
+        const startPosition = container.scrollTop;
+        const distance = targetPosition - startPosition;
+        const duration = 1000; // 1 second for slow scroll
+        const startTime = Date.now();
+        
+        const animateScroll = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function for smooth deceleration
+          const easeInOutQuad = progress < 0.5 
+            ? 2 * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+          
+          container.scrollTop = startPosition + (distance * easeInOutQuad);
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+          } else {
+            isScrolling = false;
+          }
+        };
+        
+        requestAnimationFrame(animateScroll);
+      }
+    };
+    
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [characters.length]);
 
   // Handle character selection
   const handleSelectCharacter = (index) => {
@@ -387,15 +446,15 @@ export default function CharacterSelection({ onComplete }) {
             </Text>
           </MotionBox>
 
-          {/* Scrollable container with smoother scrolling */}
+          {/* Scrollable container with smooth momentum scroll */}
           <Box
-            ref={containerRef}
+            ref={scrollContainerRef}
             h="100vh"
             overflowY="auto"
             onScroll={handleScroll}
             sx={{
-              scrollSnapType: "y mandatory",
-              scrollBehavior: "smooth",
+              scrollSnapType: "none", // Disabled for manual control
+              scrollBehavior: "auto", // Disabled for manual control
               scrollPaddingTop: "0px",
               WebkitOverflowScrolling: "touch",
               "&::-webkit-scrollbar": {
@@ -412,25 +471,37 @@ export default function CharacterSelection({ onComplete }) {
                 background: gamingTheme.colors.accent.danger,
               },
             }}
-            // Add smooth scroll physics
-            style={{
-              scrollBehavior: "smooth",
-            }}
           >
-            {characters.map((character, index) => (
-              <Box
-                key={index}
-                h="100vh"
-                sx={{ scrollSnapAlign: "start" }}
-              >
-                <CharacterSection
-                  index={index}
-                  isActive={activeSection === index}
-                  onSelect={() => handleSelectCharacter(index)}
-                  characterData={character}
-                />
-              </Box>
-            ))}
+            {characters.map((character, index) => {
+              const distance = Math.abs(activeSection - index);
+              const isActive = activeSection === index;
+              const scale = isActive ? 1 : 0.9;
+              const opacity = isActive ? 1 : 0.5;
+              
+              return (
+                <MotionBox
+                  key={index}
+                  h="100vh"
+                  sx={{ scrollSnapAlign: "start" }}
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: opacity,
+                    scale: scale,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <CharacterSection
+                    index={index}
+                    isActive={isActive}
+                    onSelect={() => handleSelectCharacter(index)}
+                    characterData={character}
+                  />
+                </MotionBox>
+              );
+            })}
           </Box>
 
           {/* Side navigation dots */}
@@ -453,7 +524,7 @@ export default function CharacterSelection({ onComplete }) {
                   bg={activeSection === index ? gamingTheme.colors.accent.primary : gamingTheme.colors.border.default}
                   cursor="pointer"
                   onClick={() => {
-                    containerRef.current.scrollTo({
+                    scrollContainerRef.current.scrollTo({
                       top: index * window.innerHeight,
                       behavior: "smooth",
                     });
