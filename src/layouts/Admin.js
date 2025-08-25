@@ -25,8 +25,6 @@ export default function Dashboard(props) {
   const [fixed, setFixed] = useState(false);
   const [showCharacterSelection, setShowCharacterSelection] = useState(true);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
-  // ref for main panel div
-  const mainPanel = React.createRef();
   // functions for changing the states from components
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
@@ -135,7 +133,6 @@ export default function Dashboard(props) {
         {...rest}
       />
       <MainPanel
-        ref={mainPanel}
         w={{
           base: "100%",
           xl: "calc(100% - 280px)",

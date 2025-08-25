@@ -542,6 +542,7 @@ export default function Dashboard() {
 							{dashboardTableData.map((row, index, arr) => {
 								return (
 									<DashboardTableRow
+										key={index}
 										name={row.name}
 										logo={row.logo}
 										members={row.members}
