@@ -152,11 +152,12 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
         transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
       >
         <Text
-          fontSize={{ base: "6xl", md: "8xl" }}
+          fontSize={{ base: "8xl", md: "9xl", lg: "150px" }}
           fontFamily={gamingTheme.typography.fonts.heading}
           fontWeight={gamingTheme.typography.weights.black}
           color={gamingTheme.colors.accent.primary}
           opacity={0.15}
+          lineHeight="1"
         >
           0{index + 1}
         </Text>
