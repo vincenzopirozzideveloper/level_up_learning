@@ -8,11 +8,15 @@ import {
   BreadcrumbLink,
   Flex,
   Link,
+  Icon,
   useColorModeValue,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
+import GamingNavbarLinks from "./GamingNavbarLinks";
+import { gamingTheme } from "../../theme/gaming-design-system";
+import { FaHome, FaChevronRight } from "react-icons/fa";
 
 export default function AdminNavbar(props) {
   const [scrolled, setScrolled] = useState(false);
@@ -26,23 +30,22 @@ export default function AdminNavbar(props) {
     ...rest
   } = props;
 
-  // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText = "white";
+  // Gaming theme colors
+  let mainText = gamingTheme.colors.text.primary;
   let navbarPosition = "absolute";
   let navbarFilter = "none";
-  let navbarBackdrop = "none";
+  let navbarBackdrop = "blur(20px)";
   let navbarShadow = "none";
-  let navbarBg = "none";
-  let navbarBorder = "transparent";
+  let navbarBg = `${gamingTheme.colors.bg.primary}CC`;
+  let navbarBorder = gamingTheme.colors.border.default;
   let secondaryMargin = "0px";
   let paddingX = "15px";
   if (props.fixed === true)
     if (scrolled === true) {
       navbarPosition = "fixed";
       navbarShadow = "0px 7px 23px rgba(0, 0, 0, 0.05)";
-      navbarBg =
-        "linear-gradient(rgba(255, 255, 255, 0) 0% rgba(255, 255, 255, 0.39) @ 100%)";
-      navbarBorder = "rgba(226, 232, 240, 0.3)";
+      navbarBg = `${gamingTheme.colors.bg.card}EE`;
+      navbarBorder = gamingTheme.colors.border.hover;
       navbarFilter = "drop-shadow(0px 7px 23px rgba(0, 0, 0, 0.05))";
       navbarBackdrop = "blur(42px)";
     }
@@ -104,27 +107,45 @@ export default function AdminNavbar(props) {
         }}
         alignItems={{ xl: "center" }}>
         <Box mb={{ sm: "8px", md: "0px" }}>
-          <Breadcrumb>
-            <BreadcrumbItem color='#A0AEC0'>
-              <BreadcrumbLink href='#' color='#A0AEC0'>
-                Pages
+          <Breadcrumb separator={<FaChevronRight color={gamingTheme.colors.text.muted} size="10px" />}>
+            <BreadcrumbItem>
+              <BreadcrumbLink 
+                href='#' 
+                color={gamingTheme.colors.text.muted}
+                fontSize="sm"
+                display="flex"
+                alignItems="center"
+                gap={2}
+                _hover={{ color: gamingTheme.colors.accent.primary }}
+              >
+                <FaHome />
+                Home
               </BreadcrumbLink>
             </BreadcrumbItem>
 
-            <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href='#' color={mainText}>
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink 
+                href='#' 
+                color={gamingTheme.colors.text.primary}
+                fontSize="sm"
+                fontWeight="bold"
+              >
                 {brandText}
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          {/* Here we create navbar brand, based on route name */}
+          {/* Page Title */}
           <Link
-            color={mainText}
+            color={gamingTheme.colors.text.primary}
             href='#'
             bg='inherit'
             borderRadius='inherit'
+            fontSize="2xl"
             fontWeight='bold'
-            _hover={{ color: { mainText } }}
+            fontFamily={gamingTheme.typography.fonts.heading}
+            letterSpacing={gamingTheme.typography.letterSpacing.wide}
+            textTransform="uppercase"
+            _hover={{ color: gamingTheme.colors.accent.primary }}
             _active={{
               bg: "inherit",
               transform: "none",
@@ -137,7 +158,7 @@ export default function AdminNavbar(props) {
           </Link>
         </Box>
         <Box ms='auto' w={{ sm: "100%", md: "unset" }}>
-          <AdminNavbarLinks
+          <GamingNavbarLinks
             onOpen={props.onOpen}
             logoText={props.logoText}
             secondary={props.secondary}
