@@ -64,6 +64,9 @@ function Loader() {
 
 // Character Section Component
 function CharacterSection({ index, isActive, onSelect, characterData }) {
+  // Select the correct GLB file based on index
+  const modelUrl = `/vision-ui-dashboard-chakra/character_${index + 1}.glb`;
+  
   return (
     <MotionBox
       h="100vh"
@@ -76,22 +79,22 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      {/* Background gradient */}
+      {/* Background gradient - simplified per UX-UI guidelines */}
       <Box
         position="absolute"
         top="0"
         left="0"
         right="0"
         bottom="0"
-        bg={`linear-gradient(135deg, ${gamingTheme.colors.bg.primary} 0%, ${gamingTheme.colors.bg.secondary} 50%, ${gamingTheme.colors.bg.tertiary} 100%)`}
-        opacity={isActive ? 1 : 0.7}
+        bg={gamingTheme.colors.bg.primary}
+        opacity={isActive ? 1 : 0.85}
         transition="opacity 0.3s"
       />
 
-      {/* Section number */}
+      {/* Section number - minimalist approach */}
       <MotionBox
         position="absolute"
-        left="50px"
+        left={{ base: "30px", md: "50px" }}
         top="50%"
         transform="translateY(-50%)"
         initial={{ x: -100, opacity: 0 }}
@@ -99,11 +102,11 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
         transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
       >
         <Text
-          fontSize="8xl"
+          fontSize={{ base: "6xl", md: "8xl" }}
           fontFamily={gamingTheme.typography.fonts.heading}
           fontWeight={gamingTheme.typography.weights.black}
           color={gamingTheme.colors.accent.primary}
-          opacity={0.3}
+          opacity={0.15}
         >
           0{index + 1}
         </Text>
@@ -132,7 +135,7 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
             <pointLight position={[-10, -10, -10]} intensity={0.5} />
             
             <Character
-              url="/vision-ui-dashboard-chakra/base_basic_pbr.glb"
+              url={modelUrl}
               isActive={isActive}
               onClick={onSelect}
             />
@@ -147,63 +150,67 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
           </Suspense>
         </Canvas>
 
-        {/* Character info */}
+        {/* Character info - minimalist approach per UX-UI guidelines */}
         <MotionBox
           position="absolute"
-          bottom="20px"
+          bottom="30px"
           left="50%"
           transform="translateX(-50%)"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
         >
-          <VStack spacing={2}>
-            <Text
-              fontSize="2xl"
-              fontFamily={gamingTheme.typography.fonts.heading}
-              fontWeight={gamingTheme.typography.weights.bold}
-              color={gamingTheme.colors.text.primary}
-              textTransform="uppercase"
-              letterSpacing={gamingTheme.typography.letterSpacing.wide}
-            >
-              {characterData.name}
-            </Text>
-            <Text
-              fontSize="md"
-              color={gamingTheme.colors.text.secondary}
-              textAlign="center"
-            >
-              {characterData.description}
-            </Text>
+          <VStack spacing={4}>
+            <VStack spacing={1}>
+              <Text
+                fontSize={{ base: "xl", md: "2xl" }}
+                fontFamily={gamingTheme.typography.fonts.heading}
+                fontWeight={gamingTheme.typography.weights.bold}
+                color={gamingTheme.colors.text.primary}
+                textTransform="uppercase"
+                letterSpacing={gamingTheme.typography.letterSpacing.wide}
+              >
+                {characterData.name}
+              </Text>
+              <Text
+                fontSize={{ base: "sm", md: "md" }}
+                color={gamingTheme.colors.text.secondary}
+                textAlign="center"
+                maxW="300px"
+              >
+                {characterData.description}
+              </Text>
+            </VStack>
             <MotionBox
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <Box
                 as="button"
-                mt={4}
-                px={8}
-                py={3}
-                bg={isActive ? gamingTheme.colors.accent.primary : gamingTheme.colors.bg.card}
-                color={gamingTheme.colors.text.primary}
-                borderRadius={gamingTheme.borders.radius.gaming}
+                px={{ base: 6, md: 8 }}
+                py={{ base: 2, md: 3 }}
+                bg={isActive ? gamingTheme.colors.accent.primary : "transparent"}
+                color={isActive ? gamingTheme.colors.text.primary : gamingTheme.colors.text.secondary}
+                borderRadius="4px"
                 border="2px solid"
                 borderColor={isActive ? gamingTheme.colors.accent.primary : gamingTheme.colors.border.default}
                 fontFamily={gamingTheme.typography.fonts.heading}
-                fontSize="lg"
+                fontSize={{ base: "md", md: "lg" }}
                 letterSpacing={gamingTheme.typography.letterSpacing.wide}
                 textTransform="uppercase"
                 onClick={onSelect}
                 cursor="pointer"
+                position="relative"
+                overflow="hidden"
                 _hover={{
                   bg: gamingTheme.colors.accent.primary,
                   borderColor: gamingTheme.colors.accent.primary,
-                  boxShadow: gamingTheme.shadows.neon.red,
-                  transform: "translateY(-2px)",
+                  color: gamingTheme.colors.text.primary,
+                  boxShadow: `0 4px 20px ${gamingTheme.colors.accent.primary}40`,
                 }}
-                transition="all 0.3s"
+                transition="all 0.2s ease"
               >
-                Select Character
+                Select
               </Box>
             </MotionBox>
           </VStack>
