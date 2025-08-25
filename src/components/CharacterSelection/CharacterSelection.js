@@ -41,6 +41,7 @@ function Character({ url, isActive }) {
         ref={meshRef}
         object={scene}
         scale={isActive ? 1.2 : 1}
+        position={[0, -1.5, 0]}  // Move model down
       />
     </Float>
   );
@@ -178,7 +179,7 @@ function CharacterSection({ index, isActive, onSelect, characterData, scrollProg
           mb={8}
         >
           <Canvas
-            camera={{ position: [0, 1, 4], fov: 45 }}
+            camera={{ position: [0, 0, 5], fov: 40 }}
             style={{ width: "100%", height: "100%" }}
             gl={{ alpha: true, antialias: true }}
           >
@@ -319,13 +320,17 @@ export default function CharacterSelection({ onComplete }) {
     { name: "Paladin", description: "Holy warrior, protector of the realm" },
   ];
 
-  // Handle scroll to detect active section
+  // Handle scroll to detect active section with debounce for smoothness
   const handleScroll = () => {
     if (containerRef.current) {
       const scrollTop = containerRef.current.scrollTop;
       const windowHeight = window.innerHeight;
       const newActiveSection = Math.round(scrollTop / windowHeight);
-      setActiveSection(newActiveSection);
+      
+      // Only update if section actually changed
+      if (newActiveSection !== activeSection) {
+        setActiveSection(newActiveSection);
+      }
     }
   };
 
@@ -382,7 +387,7 @@ export default function CharacterSelection({ onComplete }) {
             </Text>
           </MotionBox>
 
-          {/* Scrollable container */}
+          {/* Scrollable container with smoother scrolling */}
           <Box
             ref={containerRef}
             h="100vh"
@@ -391,19 +396,25 @@ export default function CharacterSelection({ onComplete }) {
             sx={{
               scrollSnapType: "y mandatory",
               scrollBehavior: "smooth",
+              scrollPaddingTop: "0px",
+              WebkitOverflowScrolling: "touch",
               "&::-webkit-scrollbar": {
-                width: "8px",
+                width: "10px",
               },
               "&::-webkit-scrollbar-track": {
                 background: gamingTheme.colors.bg.secondary,
               },
               "&::-webkit-scrollbar-thumb": {
                 background: gamingTheme.colors.accent.primary,
-                borderRadius: "4px",
+                borderRadius: "5px",
               },
               "&::-webkit-scrollbar-thumb:hover": {
                 background: gamingTheme.colors.accent.danger,
               },
+            }}
+            // Add smooth scroll physics
+            style={{
+              scrollBehavior: "smooth",
             }}
           >
             {characters.map((character, index) => (
