@@ -1,0 +1,440 @@
+import React, { useState, useRef, Suspense } from "react";
+import {
+  Box,
+  Text,
+  VStack,
+  Spinner,
+  IconButton,
+} from "@chakra-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useGLTF, OrbitControls, Float } from "@react-three/drei";
+import { gamingTheme } from "../../theme/gaming-design-system";
+import { FaChevronDown } from "react-icons/fa";
+
+const MotionBox = motion(Box);
+
+// 3D Model Component
+function Character({ url, isActive, onClick }) {
+  const { scene } = useGLTF(url);
+  const meshRef = useRef();
+
+  useFrame((state) => {
+    if (meshRef.current && isActive) {
+      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime) * 0.3;
+    }
+  });
+
+  return (
+    <Float
+      speed={isActive ? 2 : 0}
+      rotationIntensity={isActive ? 0.5 : 0}
+      floatIntensity={isActive ? 0.5 : 0}
+    >
+      <primitive
+        ref={meshRef}
+        object={scene}
+        scale={isActive ? 1.2 : 1}
+        onClick={onClick}
+        onPointerOver={(e) => {
+          document.body.style.cursor = 'pointer';
+        }}
+        onPointerOut={(e) => {
+          document.body.style.cursor = 'auto';
+        }}
+      />
+    </Float>
+  );
+}
+
+// Loading Component
+function Loader() {
+  return (
+    <Box position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color={gamingTheme.colors.accent.primary}
+        size="xl"
+      />
+    </Box>
+  );
+}
+
+// Character Section Component
+function CharacterSection({ index, isActive, onSelect, characterData }) {
+  return (
+    <MotionBox
+      h="100vh"
+      w="100%"
+      position="relative"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      {/* Background gradient */}
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        bg={`linear-gradient(135deg, ${gamingTheme.colors.bg.primary} 0%, ${gamingTheme.colors.bg.secondary} 50%, ${gamingTheme.colors.bg.tertiary} 100%)`}
+        opacity={isActive ? 1 : 0.7}
+        transition="opacity 0.3s"
+      />
+
+      {/* Section number */}
+      <MotionBox
+        position="absolute"
+        left="50px"
+        top="50%"
+        transform="translateY(-50%)"
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+      >
+        <Text
+          fontSize="8xl"
+          fontFamily={gamingTheme.typography.fonts.heading}
+          fontWeight={gamingTheme.typography.weights.black}
+          color={gamingTheme.colors.accent.primary}
+          opacity={0.3}
+        >
+          0{index + 1}
+        </Text>
+      </MotionBox>
+
+      {/* 3D Canvas */}
+      <Box
+        w={{ base: "90%", md: "60%", lg: "40%" }}
+        h="70%"
+        position="relative"
+        zIndex={1}
+      >
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          style={{ width: "100%", height: "100%" }}
+          gl={{ alpha: true, antialias: true }}
+        >
+          <Suspense fallback={null}>
+            <ambientLight intensity={0.5} />
+            <spotLight
+              position={[10, 10, 10]}
+              angle={0.15}
+              penumbra={1}
+              intensity={1}
+            />
+            <pointLight position={[-10, -10, -10]} intensity={0.5} />
+            
+            <Character
+              url="/vision-ui-dashboard-chakra/base_basic_pbr.glb"
+              isActive={isActive}
+              onClick={onSelect}
+            />
+            
+            <OrbitControls
+              enablePan={false}
+              enableZoom={false}
+              enableRotate={true}
+              autoRotate={!isActive}
+              autoRotateSpeed={1}
+            />
+          </Suspense>
+        </Canvas>
+
+        {/* Character info */}
+        <MotionBox
+          position="absolute"
+          bottom="20px"
+          left="50%"
+          transform="translateX(-50%)"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+        >
+          <VStack spacing={2}>
+            <Text
+              fontSize="2xl"
+              fontFamily={gamingTheme.typography.fonts.heading}
+              fontWeight={gamingTheme.typography.weights.bold}
+              color={gamingTheme.colors.text.primary}
+              textTransform="uppercase"
+              letterSpacing={gamingTheme.typography.letterSpacing.wide}
+            >
+              {characterData.name}
+            </Text>
+            <Text
+              fontSize="md"
+              color={gamingTheme.colors.text.secondary}
+              textAlign="center"
+            >
+              {characterData.description}
+            </Text>
+            <MotionBox
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Box
+                as="button"
+                mt={4}
+                px={8}
+                py={3}
+                bg={isActive ? gamingTheme.colors.accent.primary : gamingTheme.colors.bg.card}
+                color={gamingTheme.colors.text.primary}
+                borderRadius={gamingTheme.borders.radius.gaming}
+                border="2px solid"
+                borderColor={isActive ? gamingTheme.colors.accent.primary : gamingTheme.colors.border.default}
+                fontFamily={gamingTheme.typography.fonts.heading}
+                fontSize="lg"
+                letterSpacing={gamingTheme.typography.letterSpacing.wide}
+                textTransform="uppercase"
+                onClick={onSelect}
+                cursor="pointer"
+                _hover={{
+                  bg: gamingTheme.colors.accent.primary,
+                  borderColor: gamingTheme.colors.accent.primary,
+                  boxShadow: gamingTheme.shadows.neon.red,
+                  transform: "translateY(-2px)",
+                }}
+                transition="all 0.3s"
+              >
+                Select Character
+              </Box>
+            </MotionBox>
+          </VStack>
+        </MotionBox>
+      </Box>
+
+      {/* Scroll indicator */}
+      {index < 3 && (
+        <MotionBox
+          position="absolute"
+          bottom="20px"
+          left="50%"
+          transform="translateX(-50%)"
+          animate={{
+            y: [0, 10, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <IconButton
+            icon={<FaChevronDown />}
+            variant="ghost"
+            color={gamingTheme.colors.text.muted}
+            aria-label="Scroll down"
+            fontSize="2xl"
+            _hover={{ color: gamingTheme.colors.accent.primary }}
+          />
+        </MotionBox>
+      )}
+    </MotionBox>
+  );
+}
+
+// Main Character Selection Component
+export default function CharacterSelection({ onComplete }) {
+  const [activeSection, setActiveSection] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const containerRef = useRef();
+
+  // Character data (placeholder - same model for now)
+  const characters = [
+    { name: "Warrior", description: "Strong and brave, master of close combat" },
+    { name: "Mage", description: "Wielder of ancient magic and mystic arts" },
+    { name: "Rogue", description: "Swift and stealthy, expert in precision" },
+    { name: "Paladin", description: "Holy warrior, protector of the realm" },
+  ];
+
+  // Handle scroll to detect active section
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const scrollTop = containerRef.current.scrollTop;
+      const windowHeight = window.innerHeight;
+      const newActiveSection = Math.round(scrollTop / windowHeight);
+      setActiveSection(newActiveSection);
+    }
+  };
+
+  // Handle character selection
+  const handleSelectCharacter = (index) => {
+    setIsTransitioning(true);
+    
+    // Epic transition animation
+    setTimeout(() => {
+      onComplete(characters[index]);
+    }, 1500);
+  };
+
+  return (
+    <AnimatePresence>
+      {!isTransitioning ? (
+        <MotionBox
+          position="fixed"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          zIndex="9999"
+          bg={gamingTheme.colors.bg.primary}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Fixed header */}
+          <MotionBox
+            position="fixed"
+            top="0"
+            left="0"
+            right="0"
+            zIndex="10000"
+            p={8}
+            bg={`${gamingTheme.colors.bg.primary}CC`}
+            backdropFilter="blur(10px)"
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Text
+              fontSize={{ base: "4xl", md: "6xl" }}
+              fontFamily={gamingTheme.typography.fonts.heading}
+              fontWeight={gamingTheme.typography.weights.black}
+              color={gamingTheme.colors.text.primary}
+              textAlign="center"
+              textTransform="uppercase"
+              letterSpacing={gamingTheme.typography.letterSpacing.gaming}
+            >
+              Pick Your Character!
+            </Text>
+          </MotionBox>
+
+          {/* Scrollable container */}
+          <Box
+            ref={containerRef}
+            h="100vh"
+            overflowY="auto"
+            onScroll={handleScroll}
+            css={{
+              scrollSnapType: "y mandatory",
+              scrollBehavior: "smooth",
+              "&::-webkit-scrollbar": {
+                width: "8px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: gamingTheme.colors.bg.secondary,
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: gamingTheme.colors.accent.primary,
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                background: gamingTheme.colors.accent.danger,
+              },
+            }}
+          >
+            {characters.map((character, index) => (
+              <Box
+                key={index}
+                h="100vh"
+                css={{ scrollSnapAlign: "start" }}
+              >
+                <CharacterSection
+                  index={index}
+                  isActive={activeSection === index}
+                  onSelect={() => handleSelectCharacter(index)}
+                  characterData={character}
+                />
+              </Box>
+            ))}
+          </Box>
+
+          {/* Side navigation dots */}
+          <MotionBox
+            position="fixed"
+            right="30px"
+            top="50%"
+            transform="translateY(-50%)"
+            initial={{ x: 100 }}
+            animate={{ x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <VStack spacing={4}>
+              {[0, 1, 2, 3].map((index) => (
+                <Box
+                  key={index}
+                  w="12px"
+                  h="12px"
+                  borderRadius="full"
+                  bg={activeSection === index ? gamingTheme.colors.accent.primary : gamingTheme.colors.border.default}
+                  cursor="pointer"
+                  onClick={() => {
+                    containerRef.current.scrollTo({
+                      top: index * window.innerHeight,
+                      behavior: "smooth",
+                    });
+                  }}
+                  transition="all 0.3s"
+                  _hover={{
+                    transform: "scale(1.5)",
+                    bg: gamingTheme.colors.accent.primary,
+                  }}
+                />
+              ))}
+            </VStack>
+          </MotionBox>
+        </MotionBox>
+      ) : (
+        // Epic transition effect
+        <MotionBox
+          position="fixed"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          zIndex="9999"
+          bg={gamingTheme.colors.bg.primary}
+          initial={{ opacity: 1 }}
+          animate={{
+            opacity: 0,
+            scale: [1, 1.2, 0],
+          }}
+          transition={{ duration: 1.5 }}
+        >
+          <Box
+            position="absolute"
+            top="50%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+          >
+            <MotionBox
+              animate={{
+                rotate: 360,
+                scale: [1, 2, 0],
+              }}
+              transition={{ duration: 1.5 }}
+            >
+              <Text
+                fontSize="6xl"
+                fontFamily={gamingTheme.typography.fonts.heading}
+                fontWeight={gamingTheme.typography.weights.black}
+                color={gamingTheme.colors.accent.primary}
+                textTransform="uppercase"
+              >
+                Loading...
+              </Text>
+            </MotionBox>
+          </Box>
+        </MotionBox>
+      )}
+    </AnimatePresence>
+  );
+}

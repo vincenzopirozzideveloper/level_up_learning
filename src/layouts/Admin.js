@@ -7,7 +7,8 @@ import Footer from "components/Footer/Footer.js";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import GamingSidebar from "components/Sidebar/GamingSidebar.js";
-import React, { useState } from "react";
+import CharacterSelection from "components/CharacterSelection/CharacterSelection.js";
+import React, { useState, useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 // Custom Chakra theme
@@ -22,6 +23,8 @@ export default function Dashboard(props) {
   // states and functions
   const [sidebarVariant, setSidebarVariant] = useState("transparent");
   const [fixed, setFixed] = useState(false);
+  const [showCharacterSelection, setShowCharacterSelection] = useState(true);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
   // ref for main panel div
   const mainPanel = React.createRef();
   // functions for changing the states from components
@@ -94,10 +97,36 @@ export default function Dashboard(props) {
     });
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Handle character selection completion
+  const handleCharacterSelected = (character) => {
+    setSelectedCharacter(character);
+    setShowCharacterSelection(false);
+  };
+
+  // Check if character was already selected (from localStorage)
+  useEffect(() => {
+    const savedCharacter = localStorage.getItem('selectedCharacter');
+    if (savedCharacter) {
+      setSelectedCharacter(JSON.parse(savedCharacter));
+      setShowCharacterSelection(false);
+    }
+  }, []);
+
+  // Save selected character
+  useEffect(() => {
+    if (selectedCharacter) {
+      localStorage.setItem('selectedCharacter', JSON.stringify(selectedCharacter));
+    }
+  }, [selectedCharacter]);
   
   // Chakra Color Mode
   return (
     <ChakraProvider theme={theme} resetCss={false}>
+      {showCharacterSelection ? (
+        <CharacterSelection onComplete={handleCharacterSelected} />
+      ) : (
+        <>
       <GamingSidebar
         routes={routes}
         logoText={"LEVEL UP LEARN"}
@@ -155,6 +184,8 @@ export default function Dashboard(props) {
           onTransparent={() => setSidebarVariant("transparent")}
         />
       </MainPanel>
+      </>
+      )}
     </ChakraProvider>
   );
 }

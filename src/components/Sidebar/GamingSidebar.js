@@ -347,8 +347,12 @@ export default function GamingSidebar(props) {
                   bg: gamingTheme.colors.bg.hover,
                   color: gamingTheme.colors.text.primary,
                 }}
+                onClick={() => {
+                  localStorage.removeItem('selectedCharacter');
+                  window.location.reload();
+                }}
               >
-                Settings
+                Reset Character
               </Button>
               <Button
                 w="full"
