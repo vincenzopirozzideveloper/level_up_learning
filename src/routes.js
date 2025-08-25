@@ -7,6 +7,7 @@ import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
 import SignUp from "views/Pages/SignUp.js";
+import ThreeViewer from "views/Dashboard/ThreeViewer.js";
 
 import {
   HomeIcon,
@@ -16,6 +17,7 @@ import {
   DocumentIcon,
   RocketIcon,
 } from "components/Icons/Icons";
+import { FaCube } from "react-icons/fa";
 
 var dashRoutes = [
   {
@@ -37,6 +39,13 @@ var dashRoutes = [
     name: "Billing",
     icon: <CreditIcon color='inherit' />,
     component: Billing,
+    layout: "/admin",
+  },
+  {
+    path: "/3d-viewer",
+    name: "3D Viewer",
+    icon: <FaCube color='inherit' />,
+    component: ThreeViewer,
     layout: "/admin",
   },
   {

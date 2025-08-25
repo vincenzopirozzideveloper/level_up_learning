@@ -6,7 +6,7 @@ import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer.js";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
+import GamingSidebar from "components/Sidebar/GamingSidebar.js";
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
@@ -98,10 +98,10 @@ export default function Dashboard(props) {
   // Chakra Color Mode
   return (
     <ChakraProvider theme={theme} resetCss={false}>
-      <Sidebar
+      <GamingSidebar
         routes={routes}
-        logoText={"VISION UI FREE"}
-        display='none'
+        logoText={"LEVEL UP LEARN"}
+        display={{ base: "none", xl: "block" }}
         sidebarVariant={sidebarVariant}
         {...rest}
       />
@@ -109,7 +109,11 @@ export default function Dashboard(props) {
         ref={mainPanel}
         w={{
           base: "100%",
-          xl: "calc(100% - 275px)",
+          xl: "calc(100% - 280px)",
+        }}
+        ml={{
+          base: "0",
+          xl: "280px",
         }}>
         <Portal>
           <AdminNavbar
