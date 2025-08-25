@@ -2,6 +2,7 @@
 
 // import
 import Dashboard from "views/Dashboard/Dashboard.js";
+import GamingDashboard from "views/Dashboard/GamingDashboard.js";
 import Tables from "views/Dashboard/Tables.js";
 import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
@@ -24,7 +25,7 @@ var dashRoutes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: <HomeIcon color='inherit' />,
-    component: Dashboard,
+    component: GamingDashboard,
     layout: "/admin",
   },
   {
