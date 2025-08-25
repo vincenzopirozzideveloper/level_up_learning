@@ -52,15 +52,23 @@ export default function GamingNavbarLinks(props) {
       flexDirection='row'
       gap={4}
     >
-      {/* Currency Display */}
+      {/* Currency Display with 3D effect */}
       <HStack 
         display={{ base: "none", lg: "flex" }}
         spacing={4}
-        bg={gamingTheme.colors.bg.card}
+        bg={`linear-gradient(135deg, ${gamingTheme.colors.bg.card}DD, ${gamingTheme.colors.bg.secondary}DD)`}
         px={4}
         py={2}
         borderRadius="full"
         border={`1px solid ${gamingTheme.colors.border.default}`}
+        boxShadow={`inset 0 2px 4px ${gamingTheme.colors.bg.primary}40, 0 4px 12px ${gamingTheme.colors.accent.primary}20`}
+        backdropFilter="blur(10px)"
+        transition="all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+        _hover={{
+          transform: "translateY(-2px) scale(1.02)",
+          boxShadow: `inset 0 2px 6px ${gamingTheme.colors.bg.primary}60, 0 8px 20px ${gamingTheme.colors.accent.primary}30`,
+          borderColor: gamingTheme.colors.accent.primary,
+        }}
       >
         <HStack spacing={1}>
           <Icon as={FaCoins} color="#FFD700" boxSize={4} />
@@ -84,14 +92,30 @@ export default function GamingNavbarLinks(props) {
         </HStack>
       </HStack>
 
-      {/* Streak Display */}
+      {/* Streak Display with glow effect */}
       <HStack
-        bg={gamingTheme.colors.bg.card}
+        bg={`linear-gradient(135deg, ${gamingTheme.colors.accent.primary}20, ${gamingTheme.colors.bg.card}DD)`}
         px={3}
         py={2}
         borderRadius="full"
-        border={`1px solid ${gamingTheme.colors.accent.primary}`}
+        border={`2px solid ${gamingTheme.colors.accent.primary}`}
         display={{ base: "none", md: "flex" }}
+        position="relative"
+        boxShadow={`0 0 20px ${gamingTheme.colors.accent.primary}40, inset 0 1px 2px ${gamingTheme.colors.accent.primary}30`}
+        animation="fireGlow 2s ease-in-out infinite alternate"
+        sx={{
+          '@keyframes fireGlow': {
+            '0%': { 
+              boxShadow: `0 0 15px ${gamingTheme.colors.accent.primary}30, inset 0 1px 2px ${gamingTheme.colors.accent.primary}20`,
+            },
+            '100%': { 
+              boxShadow: `0 0 30px ${gamingTheme.colors.accent.primary}50, inset 0 1px 4px ${gamingTheme.colors.accent.primary}40`,
+            },
+          },
+        }}
+        _hover={{
+          transform: "translateY(-2px) scale(1.05)",
+        }}
       >
         <Icon as={FaFire} color="#FF6B35" boxSize={4} />
         <Text color={gamingTheme.colors.text.primary} fontSize="sm" fontWeight="bold">
@@ -157,25 +181,71 @@ export default function GamingNavbarLinks(props) {
         </MenuList>
       </Menu>
 
-      {/* User Profile Menu */}
+      {/* User Profile Menu with 3D avatar */}
       <Menu>
         <MenuButton>
           <HStack
             spacing={3}
-            bg={gamingTheme.colors.bg.card}
+            bg={`linear-gradient(135deg, ${gamingTheme.colors.bg.card}EE, ${gamingTheme.colors.bg.secondary}EE)`}
             px={3}
             py={2}
             borderRadius="full"
-            border={`1px solid ${gamingTheme.colors.border.default}`}
+            border={`2px solid ${gamingTheme.colors.border.default}`}
             cursor="pointer"
-            _hover={{ borderColor: gamingTheme.colors.accent.primary }}
-            transition="all 0.2s"
+            position="relative"
+            overflow="hidden"
+            transition="all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+            boxShadow={`inset 0 2px 4px ${gamingTheme.colors.bg.primary}40, 0 4px 12px ${gamingTheme.colors.accent.primary}20`}
+            _hover={{ 
+              borderColor: gamingTheme.colors.accent.primary,
+              transform: "translateY(-2px) scale(1.02)",
+              boxShadow: `inset 0 2px 6px ${gamingTheme.colors.bg.primary}60, 0 8px 24px ${gamingTheme.colors.accent.primary}40`,
+            }}
+            _before={{
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: '-100%',
+              width: '100%',
+              height: '100%',
+              background: `linear-gradient(90deg, transparent, ${gamingTheme.colors.accent.primary}10, transparent)`,
+              transition: 'left 0.5s',
+            }}
+            _hover={{
+              borderColor: gamingTheme.colors.accent.primary,
+              transform: "translateY(-2px) scale(1.02)",
+              boxShadow: `inset 0 2px 6px ${gamingTheme.colors.bg.primary}60, 0 8px 24px ${gamingTheme.colors.accent.primary}40`,
+              '&::before': {
+                left: '100%',
+              },
+            }}
           >
-            <Avatar
-              size="sm"
-              name={userData.username}
-              bg={gamingTheme.colors.accent.primary}
-            />
+            <Box position="relative">
+              <Avatar
+                size="sm"
+                name={userData.username}
+                bg={gamingTheme.colors.accent.primary}
+                border={`2px solid ${gamingTheme.colors.accent.secondary}`}
+                boxShadow={`0 0 15px ${gamingTheme.colors.accent.primary}40`}
+              />
+              <Box
+                position="absolute"
+                bottom="-2px"
+                right="-2px"
+                w="10px"
+                h="10px"
+                bg={gamingTheme.colors.accent.success}
+                borderRadius="full"
+                border={`2px solid ${gamingTheme.colors.bg.primary}`}
+                animation="pulse 2s infinite"
+                sx={{
+                  '@keyframes pulse': {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(1.2)' },
+                  },
+                }}
+              />
+            </Box>
             <VStack align="start" spacing={0} display={{ base: "none", md: "flex" }}>
               <Text color={gamingTheme.colors.text.primary} fontSize="sm" fontWeight="bold">
                 {userData.username}

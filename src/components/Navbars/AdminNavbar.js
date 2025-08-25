@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
 import GamingNavbarLinks from "./GamingNavbarLinks";
 import { gamingTheme } from "../../theme/gaming-design-system";
@@ -64,7 +64,10 @@ export default function AdminNavbar(props) {
       setScrolled(false);
     }
   };
-  window.addEventListener("scroll", changeNavbar);
+  useEffect(() => {
+    window.addEventListener("scroll", changeNavbar);
+    return () => window.removeEventListener("scroll", changeNavbar);
+  }, []);
   return (
     <Flex
       position={navbarPosition}

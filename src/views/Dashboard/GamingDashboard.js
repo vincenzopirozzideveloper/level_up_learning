@@ -30,7 +30,7 @@ import IconBox from 'components/Icons/IconBox';
 import { gamingTheme } from '../../theme/gaming-design-system';
 
 // Icons
-import { FaTrophy, FaFire, FaGem, FaKey, FaCoins, FaStar, FaRocket, FaShieldAlt } from 'react-icons/fa';
+import { FaTrophy, FaFire, FaGem, FaKey, FaCoins, FaStar, FaRocket, FaShieldAlt, FaBolt } from 'react-icons/fa';
 import { GiTwoCoins, GiDiamondHard, GiKey2, GiLaurelsTrophy } from 'react-icons/gi';
 import { MdTimeline, MdLocalFireDepartment } from 'react-icons/md';
 import { IoMdTrophy } from 'react-icons/io';
@@ -76,11 +76,21 @@ export default function GamingDashboard() {
   const xpPercentage = (userData.xp / userData.xpToNext) * 100;
 
   return (
-    <Flex flexDirection='column' pt={{ base: '120px', md: '75px' }}>
+    <Flex flexDirection='column' pt={{ base: '140px', md: '120px' }}>
       {/* Header Stats Section */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing='24px' mb={6}>
-        {/* Level & XP Card */}
-        <Card bg={gamingTheme.colors.bg.card} border={`1px solid ${gamingTheme.colors.border.default}`}>
+        {/* Level & XP Card with 3D effect */}
+        <Card 
+          bg={`linear-gradient(135deg, ${gamingTheme.colors.bg.card}, ${gamingTheme.colors.bg.secondary})`}
+          border={`2px solid ${gamingTheme.colors.border.default}`}
+          boxShadow={`0 10px 30px ${gamingTheme.colors.bg.primary}80, inset 0 1px 0 ${gamingTheme.colors.accent.primary}10`}
+          transition="all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+          _hover={{
+            transform: "translateY(-5px)",
+            boxShadow: `0 15px 40px ${gamingTheme.colors.accent.primary}30, inset 0 1px 0 ${gamingTheme.colors.accent.primary}20`,
+            borderColor: gamingTheme.colors.accent.primary,
+          }}
+        >
           <CardBody>
             <VStack spacing={3} align="stretch">
               <HStack justify="space-between">
