@@ -213,7 +213,7 @@ function Billing() {
                       bg='transparent'
                       w='16px'
                       h='16px'
-                      variant='no-hover'>
+                      variant='noHover'>
                       <Icon as={FaPencilAlt} color='#fff' w='12px' h='12px' />
                     </Button>
                   </Flex>
@@ -238,7 +238,7 @@ function Billing() {
                       bg='transparent'
                       w='16px'
                       h='16px'
-                      variant='no-hover'>
+                      variant='noHover'>
                       <Icon as={FaPencilAlt} color='#fff' w='12px' h='12px' />
                     </Button>
                   </Flex>

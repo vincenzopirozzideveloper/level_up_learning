@@ -201,7 +201,7 @@ export default function Dashboard() {
 								<Flex align='center'>
 									<Button
 										p='0px'
-										variant='no-hover'
+										variant='noHover'
 										bg='transparent'
 										my={{ sm: '1.5rem', lg: '0px' }}>
 										<Text

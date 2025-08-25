@@ -91,7 +91,7 @@ export default function HeaderLinks(props) {
           px='0px'
           me={{ sm: "2px", md: "16px" }}
           color={navbarIcon}
-          variant='transparent-with-icon'
+          variant='transparentWithIcon'
           rightIcon={
             document.documentElement.dir ? (
               ""

@@ -40,7 +40,7 @@ function BillingRow(props) {
         <Flex direction={{ sm: "column", md: "row" }} align='flex-start'>
           <Button
             p='0px'
-            variant='no-hover'
+            variant='noHover'
             mb={{ sm: "10px", md: "0px" }}
             me={{ md: "12px" }}>
             <Flex color='red.500' cursor='pointer' align='center' p='12px'>
@@ -48,7 +48,7 @@ function BillingRow(props) {
               <Text fontSize='xs'>DELETE</Text>
             </Flex>
           </Button>
-          <Button p='0px' variant='no-hover'>
+          <Button p='0px' variant='noHover'>
             <Flex color='#fff' cursor='pointer' align='center' p='12px'>
               <Icon as={FaPencilAlt} me='4px' w='14px' h='14px' />
               <Text fontSize='xs' color='gray.400'>

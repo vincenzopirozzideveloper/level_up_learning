@@ -88,7 +88,7 @@ function TablesTableRow(props) {
         </Text>
       </Td>
       <Td border={lastItem ? "none" : null} borderBottomColor='#56577A'>
-        <Button p='0px' bg='transparent' variant='no-hover'>
+        <Button p='0px' bg='transparent' variant='noHover'>
           <Text
             fontSize='sm'
             color='gray.400'

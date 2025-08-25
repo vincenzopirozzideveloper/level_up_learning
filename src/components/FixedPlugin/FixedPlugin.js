@@ -25,7 +25,7 @@ export default function FixedPlugin(props) {
         onClick={props.onOpen}
         bg={bgButton}
         position='fixed'
-        variant='no-hover'
+        variant='noHover'
         right={"35px"}
         bottom='30px'
         borderRadius='50px'

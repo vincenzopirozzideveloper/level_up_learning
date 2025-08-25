@@ -21,7 +21,7 @@ function InvoicesRow(props) {
           {price}
         </Text>
       </Box>
-      <Button p='0px' bg='transparent' variant='no-hover'>
+      <Button p='0px' bg='transparent' variant='noHover'>
         <Flex alignItems='center' p='12px'>
           <Icon as={logo} w='16px' h='16px' h='auto' me='5px' color='#fff' />
           <Text fontSize='xs' color='gray.400'>

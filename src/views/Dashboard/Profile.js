@@ -168,7 +168,7 @@ function Profile() {
 						<Text color='#fff' fontSize='sm' mb='auto'>
 							Nice to see you, Mark Johnson!
 						</Text>
-						<Button alignSelf='flex-start' variant='no-hover' bg='transparent' p='0px'>
+						<Button alignSelf='flex-start' variant='noHover' bg='transparent' p='0px'>
 							<Text
 								fontSize='xs'
 								color='#fff'

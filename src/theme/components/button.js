@@ -2,12 +2,12 @@ export const buttonStyles = {
   components: {
     Button: {
       variants: {
-        "no-hover": {
+        noHover: {
           _hover: {
             boxShadow: "none",
           },
         },
-        "transparent-with-icon": {
+        transparentWithIcon: {
           bg: "transparent",
           fontWeight: "bold",
           borderRadius: "inherit",
