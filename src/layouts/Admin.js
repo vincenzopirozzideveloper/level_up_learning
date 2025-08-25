@@ -104,6 +104,11 @@ export default function Dashboard(props) {
 
   // Check if character was already selected (from localStorage)
   useEffect(() => {
+    // Skip localStorage if env variable is set
+    if (process.env.REACT_APP_SKIP_CHARACTER_SELECTION === 'true') {
+      return;
+    }
+    
     const savedCharacter = localStorage.getItem('selectedCharacter');
     if (savedCharacter) {
       setSelectedCharacter(JSON.parse(savedCharacter));
@@ -113,6 +118,11 @@ export default function Dashboard(props) {
 
   // Save selected character
   useEffect(() => {
+    // Skip localStorage if env variable is set
+    if (process.env.REACT_APP_SKIP_CHARACTER_SELECTION === 'true') {
+      return;
+    }
+    
     if (selectedCharacter) {
       localStorage.setItem('selectedCharacter', JSON.stringify(selectedCharacter));
     }

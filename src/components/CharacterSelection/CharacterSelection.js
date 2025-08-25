@@ -1,6 +1,7 @@
 import React, { useState, useRef, Suspense } from "react";
 import {
   Box,
+  Flex,
   Text,
   VStack,
   Spinner,
@@ -15,33 +16,31 @@ import { FaChevronDown } from "react-icons/fa";
 const MotionBox = motion(Box);
 
 // 3D Model Component
-function Character({ url, isActive, onClick }) {
+function Character({ url, isActive }) {
   const { scene } = useGLTF(url);
   const meshRef = useRef();
 
   useFrame((state) => {
-    if (meshRef.current && isActive) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime) * 0.3;
+    if (meshRef.current) {
+      // Continuous rotation when not active, interactive when active
+      if (!isActive) {
+        meshRef.current.rotation.y += 0.005;
+      } else {
+        meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+      }
     }
   });
 
   return (
     <Float
-      speed={isActive ? 2 : 0}
-      rotationIntensity={isActive ? 0.5 : 0}
-      floatIntensity={isActive ? 0.5 : 0}
+      speed={isActive ? 1.5 : 0.5}
+      rotationIntensity={isActive ? 0.4 : 0.2}
+      floatIntensity={isActive ? 0.6 : 0.3}
     >
       <primitive
         ref={meshRef}
         object={scene}
         scale={isActive ? 1.2 : 1}
-        onClick={onClick}
-        onPointerOver={(e) => {
-          document.body.style.cursor = 'pointer';
-        }}
-        onPointerOut={(e) => {
-          document.body.style.cursor = 'auto';
-        }}
       />
     </Float>
   );
@@ -63,7 +62,7 @@ function Loader() {
 }
 
 // Character Section Component
-function CharacterSection({ index, isActive, onSelect, characterData }) {
+function CharacterSection({ index, isActive, onSelect, characterData, scrollProgress }) {
   // Select the correct GLB file based on index
   const modelUrl = `/vision-ui-dashboard-chakra/character_${index + 1}.glb`;
   
@@ -76,20 +75,69 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
       alignItems="center"
       justifyContent="center"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      animate={{ 
+        opacity: isActive ? 1 : 0.4,
+        scale: isActive ? 1 : 0.95
+      }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      {/* Background gradient - simplified per UX-UI guidelines */}
+      {/* Animated background with particles effect */}
       <Box
         position="absolute"
         top="0"
         left="0"
         right="0"
         bottom="0"
-        bg={gamingTheme.colors.bg.primary}
-        opacity={isActive ? 1 : 0.85}
-        transition="opacity 0.3s"
-      />
+        overflow="hidden"
+      >
+        {/* Base gradient */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          bg={`radial-gradient(circle at 50% 50%, ${gamingTheme.colors.bg.secondary}00 0%, ${gamingTheme.colors.bg.primary} 70%)`}
+        />
+        
+        {/* Animated gradient orb */}
+        <MotionBox
+          position="absolute"
+          width="600px"
+          height="600px"
+          borderRadius="50%"
+          bg={`radial-gradient(circle, ${gamingTheme.colors.accent.primary}20, transparent 70%)`}
+          left="50%"
+          top="50%"
+          transform="translate(-50%, -50%)"
+          animate={{
+            scale: isActive ? [1, 1.2, 1] : 0.8,
+            opacity: isActive ? [0.3, 0.5, 0.3] : 0.1,
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+
+        {/* Grid pattern overlay */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          opacity={0.05}
+          backgroundImage={`
+            linear-gradient(${gamingTheme.colors.accent.primary}40 1px, transparent 1px),
+            linear-gradient(90deg, ${gamingTheme.colors.accent.primary}40 1px, transparent 1px)
+          `}
+          backgroundSize="50px 50px"
+          transform={isActive ? "scale(1)" : "scale(1.1)"}
+          transition="transform 0.6s"
+        />
+      </Box>
 
       {/* Section number - minimalist approach */}
       <MotionBox
@@ -112,52 +160,62 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
         </Text>
       </MotionBox>
 
-      {/* 3D Canvas */}
-      <Box
-        w={{ base: "90%", md: "60%", lg: "40%" }}
-        h="70%"
+      {/* 3D Canvas Container */}
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
         position="relative"
         zIndex={1}
+        w={{ base: "90%", md: "70%", lg: "50%" }}
+        h="80vh"
       >
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 50 }}
-          style={{ width: "100%", height: "100%" }}
-          gl={{ alpha: true, antialias: true }}
+        {/* 3D Canvas */}
+        <Box
+          w="100%"
+          h="60%"
+          position="relative"
+          mb={8}
         >
-          <Suspense fallback={null}>
-            <ambientLight intensity={0.5} />
-            <spotLight
-              position={[10, 10, 10]}
-              angle={0.15}
-              penumbra={1}
-              intensity={1}
-            />
-            <pointLight position={[-10, -10, -10]} intensity={0.5} />
-            
-            <Character
-              url={modelUrl}
-              isActive={isActive}
-              onClick={onSelect}
-            />
-            
-            <OrbitControls
-              enablePan={false}
-              enableZoom={false}
-              enableRotate={true}
-              autoRotate={!isActive}
-              autoRotateSpeed={1}
-            />
-          </Suspense>
-        </Canvas>
+          <Canvas
+            camera={{ position: [0, 1, 4], fov: 45 }}
+            style={{ width: "100%", height: "100%" }}
+            gl={{ alpha: true, antialias: true }}
+          >
+            <Suspense fallback={null}>
+              <ambientLight intensity={0.5} />
+              <spotLight
+                position={[10, 10, 10]}
+                angle={0.15}
+                penumbra={1}
+                intensity={1}
+              />
+              <pointLight position={[-10, -10, -10]} intensity={0.5} />
+              
+              <Character
+                url={modelUrl}
+                isActive={isActive}
+              />
+              
+              <OrbitControls
+                enablePan={false}
+                enableZoom={false}
+                enableRotate={true}
+                autoRotate={!isActive}
+                autoRotateSpeed={1}
+              />
+            </Suspense>
+          </Canvas>
+        </Box>
 
-        {/* Character info - minimalist approach per UX-UI guidelines */}
+        {/* Character info - below 3D model */}
         <MotionBox
-          position="absolute"
-          bottom="30px"
-          left="50%"
-          transform="translateX(-50%)"
+          w="100%"
           initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          animate={{ 
+            y: isActive ? 0 : 20, 
+            opacity: isActive ? 1 : 0.6 
+          }}
           transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
         >
           <VStack spacing={4}>
@@ -215,7 +273,7 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
             </MotionBox>
           </VStack>
         </MotionBox>
-      </Box>
+      </Flex>
 
       {/* Scroll indicator */}
       {index < 3 && (
