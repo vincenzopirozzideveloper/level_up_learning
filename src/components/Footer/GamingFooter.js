@@ -36,7 +36,7 @@ export default function GamingFooter() {
     <Box
       as="footer"
       position="relative"
-      mt={20}
+      mt={8}
       pt={10}
       pb={6}
       px={{ base: 4, md: 8 }}
