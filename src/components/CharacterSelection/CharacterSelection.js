@@ -75,6 +75,7 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
       display="flex"
       alignItems="center"
       justifyContent="center"
+      pt="80px"
       initial={{ opacity: 0 }}
       animate={{ 
         opacity: isActive ? 1 : 0.4,
@@ -419,37 +420,130 @@ export default function CharacterSelection({ onComplete }) {
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Fixed header */}
+          {/* Fixed header with scrolling banner */}
           <MotionBox
             position="fixed"
             top="0"
             left="0"
             right="0"
             zIndex="10000"
-            p={8}
-            bg={`${gamingTheme.colors.bg.primary}CC`}
-            backdropFilter="blur(10px)"
+            h="80px"
+            bg="white"
+            borderBottom="3px solid black"
+            overflow="hidden"
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Text
-              fontSize={{ base: "4xl", md: "6xl" }}
-              fontFamily={gamingTheme.typography.fonts.heading}
-              fontWeight={gamingTheme.typography.weights.black}
-              color={gamingTheme.colors.text.primary}
-              textAlign="center"
-              textTransform="uppercase"
-              letterSpacing={gamingTheme.typography.letterSpacing.gaming}
+            {/* Scrolling text container */}
+            <Box
+              position="relative"
+              h="100%"
+              display="flex"
+              alignItems="center"
             >
-              Pick Your Character!
-            </Text>
+              {/* First text */}
+              <MotionBox
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                whiteSpace="nowrap"
+                w="100%"
+                animate={{
+                  x: ["100%", "-100%"],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                  repeatDelay: 0,
+                }}
+              >
+                <Text
+                  fontSize={{ base: "3xl", md: "5xl" }}
+                  fontFamily={gamingTheme.typography.fonts.heading}
+                  fontWeight={gamingTheme.typography.weights.black}
+                  color="black"
+                  textTransform="uppercase"
+                  letterSpacing={gamingTheme.typography.letterSpacing.gaming}
+                  textAlign="center"
+                  w="100%"
+                >
+                  PICK YOUR CHARACTER! - LEVEL UP LEARN
+                </Text>
+              </MotionBox>
+              
+              {/* Second text - delayed */}
+              <MotionBox
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                whiteSpace="nowrap"
+                w="100%"
+                animate={{
+                  x: ["100%", "-100%"],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: 3.33, // Start 3.33 seconds after the first one
+                  repeatDelay: 0,
+                }}
+              >
+                <Text
+                  fontSize={{ base: "3xl", md: "5xl" }}
+                  fontFamily={gamingTheme.typography.fonts.heading}
+                  fontWeight={gamingTheme.typography.weights.black}
+                  color="black"
+                  textTransform="uppercase"
+                  letterSpacing={gamingTheme.typography.letterSpacing.gaming}
+                  textAlign="center"
+                  w="100%"
+                >
+                  PICK YOUR CHARACTER! - LEVEL UP LEARN
+                </Text>
+              </MotionBox>
+              
+              {/* Third text - delayed */}
+              <MotionBox
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                whiteSpace="nowrap"
+                w="100%"
+                animate={{
+                  x: ["100%", "-100%"],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: 6.66, // Start 6.66 seconds after the first one
+                  repeatDelay: 0,
+                }}
+              >
+                <Text
+                  fontSize={{ base: "3xl", md: "5xl" }}
+                  fontFamily={gamingTheme.typography.fonts.heading}
+                  fontWeight={gamingTheme.typography.weights.black}
+                  color="black"
+                  textTransform="uppercase"
+                  letterSpacing={gamingTheme.typography.letterSpacing.gaming}
+                  textAlign="center"
+                  w="100%"
+                >
+                  PICK YOUR CHARACTER! - LEVEL UP LEARN
+                </Text>
+              </MotionBox>
+            </Box>
           </MotionBox>
 
           {/* Scrollable container with smooth momentum scroll */}
           <Box
             ref={scrollContainerRef}
             h="100vh"
+            pt="80px"
             overflowY="auto"
             onScroll={handleScroll}
             sx={{
