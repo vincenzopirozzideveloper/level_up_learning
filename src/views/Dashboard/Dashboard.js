@@ -578,6 +578,7 @@ export default function Dashboard() {
 							{timelineData.map((row, index, arr) => {
 								return (
 									<TimelineRow
+										key={index}
 										logo={row.logo}
 										title={row.title}
 										date={row.date}

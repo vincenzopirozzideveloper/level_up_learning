@@ -323,7 +323,7 @@ export default function CharacterSelection({ onComplete }) {
             h="100vh"
             overflowY="auto"
             onScroll={handleScroll}
-            css={{
+            sx={{
               scrollSnapType: "y mandatory",
               scrollBehavior: "smooth",
               "&::-webkit-scrollbar": {
@@ -345,7 +345,7 @@ export default function CharacterSelection({ onComplete }) {
               <Box
                 key={index}
                 h="100vh"
-                css={{ scrollSnapAlign: "start" }}
+                sx={{ scrollSnapAlign: "start" }}
               >
                 <CharacterSection
                   index={index}
