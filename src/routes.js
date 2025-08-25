@@ -9,6 +9,7 @@ import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
 import SignUp from "views/Pages/SignUp.js";
 import ThreeViewer from "views/Dashboard/ThreeViewer.js";
+import Settings from "views/Dashboard/Settings.js";
 
 import {
   HomeIcon,
@@ -18,7 +19,7 @@ import {
   DocumentIcon,
   RocketIcon,
 } from "components/Icons/Icons";
-import { FaCube } from "react-icons/fa";
+import { FaCube, FaCog } from "react-icons/fa";
 
 var dashRoutes = [
   {
@@ -47,6 +48,13 @@ var dashRoutes = [
     name: "3D Viewer",
     icon: <FaCube color='inherit' />,
     component: ThreeViewer,
+    layout: "/admin",
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    icon: <FaCog color='inherit' />,
+    component: Settings,
     layout: "/admin",
   },
   {

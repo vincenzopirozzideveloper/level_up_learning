@@ -14,7 +14,6 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 // Custom Chakra theme
 import theme from "theme/themeAdmin.js";
-import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
 // Custom components
 import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
@@ -173,13 +172,6 @@ export default function Dashboard(props) {
           </PanelContent>
         ) : null}
         <GamingFooter />
-        <Portal>
-          <FixedPlugin
-            secondary={getActiveNavbar(routes)}
-            fixed={fixed}
-            onOpen={onOpen}
-          />
-        </Portal>
         <Configurator
           secondary={getActiveNavbar(routes)}
           isOpen={isOpen}
