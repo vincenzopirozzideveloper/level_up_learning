@@ -31,7 +31,7 @@ import { gamingTheme } from '../../theme/gaming-design-system';
 
 // Icons
 import { FaTrophy, FaFire, FaGem, FaKey, FaCoins, FaStar, FaRocket, FaShieldAlt, FaBolt } from 'react-icons/fa';
-import { GiTwoCoins, GiDiamondHard, GiKey2, GiLaurelsTrophy } from 'react-icons/gi';
+import { GiTwoCoins, GiDiamondHard, GiKey, GiLaurelsTrophy } from 'react-icons/gi';
 import { MdTimeline, MdLocalFireDepartment } from 'react-icons/md';
 import { IoMdTrophy } from 'react-icons/io';
 import { BsLightningFill, BsFillShieldFill } from 'react-icons/bs';
@@ -399,7 +399,7 @@ export default function GamingDashboard() {
           Continue Learning
         </Button>
         <Button
-          leftIcon={<Icon as={GiKey2} />}
+          leftIcon={<Icon as={GiKey} />}
           variant="outline"
           borderColor={gamingTheme.colors.border.default}
           color={gamingTheme.colors.text.primary}

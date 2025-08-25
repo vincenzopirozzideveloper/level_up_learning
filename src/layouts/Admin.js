@@ -4,6 +4,7 @@
 import { ChakraProvider, Portal, useDisclosure } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer.js";
+import GamingFooter from "components/Footer/GamingFooter.js";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import GamingSidebar from "components/Sidebar/GamingSidebar.js";
@@ -171,7 +172,7 @@ export default function Dashboard(props) {
             </PanelContainer>
           </PanelContent>
         ) : null}
-        <Footer />
+        <GamingFooter />
         <Portal>
           <FixedPlugin
             secondary={getActiveNavbar(routes)}
