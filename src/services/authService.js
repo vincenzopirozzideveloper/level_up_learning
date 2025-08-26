@@ -1,4 +1,4 @@
-// Authentication Service for Laravel Sanctum
+// Authentication Service for Laravel Sanctum (Token-based)
 import axios from 'axios';
 
 const API_URL = '/api'; // Nginx will forward to backend
@@ -6,33 +6,21 @@ const API_URL = '/api'; // Nginx will forward to backend
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // Important for Sanctum cookies
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
 });
 
-// Request interceptor to add CSRF token
+// Request interceptor to add Bearer token
 api.interceptors.request.use(
-  async (config) => {
-    // Skip CSRF for certain endpoints
-    if (config.url === '/sanctum/csrf-cookie') {
-      return config;
-    }
+  (config) => {
+    // Get token from localStorage
+    const token = localStorage.getItem('token');
     
-    // Get CSRF token if not present and backend is available
-    try {
-      if (!document.cookie.includes('XSRF-TOKEN')) {
-        // Only try to get CSRF if we're making an actual API call
-        if (config.url !== '/user') {
-          await api.get('/sanctum/csrf-cookie').catch(() => {
-            console.log('CSRF endpoint not available, continuing without it');
-          });
-        }
-      }
-    } catch (error) {
-      console.log('CSRF token fetch failed, continuing anyway');
+    // Add Bearer token if available
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     
     return config;
@@ -47,8 +35,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Redirect to login if unauthorized
+      // Unauthorized - clear auth data
       localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      
       // Only redirect if we're not already on auth pages
       if (!window.location.hash.includes('/auth/')) {
         window.location.href = '#/auth/sign-in';
@@ -62,13 +52,12 @@ const authService = {
   // Register new user
   register: async (userData) => {
     try {
-      // Try to get CSRF cookie first (optional for development)
-      await api.get('/sanctum/csrf-cookie').catch(() => {
-        console.log('CSRF endpoint not available, continuing without it');
-      });
-      
       const response = await api.post('/v1/auth/register', userData);
       
+      // Save token and user data
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
       }
@@ -85,7 +74,8 @@ const authService = {
           character_selected: false,
         };
         localStorage.setItem('user', JSON.stringify(mockUser));
-        return { user: mockUser };
+        localStorage.setItem('token', 'mock-token-123');
+        return { user: mockUser, token: 'mock-token-123' };
       }
       throw error;
     }
@@ -94,16 +84,15 @@ const authService = {
   // Login user
   login: async (email, password) => {
     try {
-      // Try to get CSRF cookie first (optional for development)
-      await api.get('/sanctum/csrf-cookie').catch(() => {
-        console.log('CSRF endpoint not available, continuing without it');
-      });
-      
       const response = await api.post('/v1/auth/login', {
         email,
         password,
       });
       
+      // Save token and user data
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
       }
@@ -120,7 +109,8 @@ const authService = {
           character_selected: false,
         };
         localStorage.setItem('user', JSON.stringify(mockUser));
-        return { user: mockUser };
+        localStorage.setItem('token', 'mock-token-123');
+        return { user: mockUser, token: 'mock-token-123' };
       }
       throw error;
     }
@@ -129,14 +119,15 @@ const authService = {
   // Logout user
   logout: async () => {
     try {
+      // Try to logout from backend
       await api.post('/v1/auth/logout');
-      localStorage.removeItem('user');
-      window.location.href = '/auth/sign-in';
     } catch (error) {
       console.error('Logout error:', error);
-      // Even if logout fails, clear local data
+    } finally {
+      // Always clear local data
       localStorage.removeItem('user');
-      window.location.href = '/auth/sign-in';
+      localStorage.removeItem('token');
+      window.location.href = '#/auth/sign-in';
     }
   },
 
@@ -144,19 +135,26 @@ const authService = {
   getCurrentUser: async () => {
     try {
       const response = await api.get('/v1/auth/me');
-      if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        return response.data.user;
       }
       return response.data;
     } catch (error) {
+      // If can't get user, clear auth
+      if (error.response?.status === 401) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
       throw error;
     }
   },
 
   // Check if user is logged in
   isAuthenticated: () => {
+    const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
-    return !!user;
+    return !!(token && user);
   },
 
   // Get user from localStorage
@@ -165,15 +163,30 @@ const authService = {
     return user ? JSON.parse(user) : null;
   },
 
+  // Get token
+  getToken: () => {
+    return localStorage.getItem('token');
+  },
+
   // Update user character selection
   updateCharacterSelection: async (characterData) => {
     try {
-      const response = await api.post('/user/character', characterData);
+      const response = await api.post('/v1/user/character', characterData);
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
       }
       return response.data;
     } catch (error) {
+      // Mock for development
+      if (error.code === 'ERR_NETWORK' || error.response?.status === 404) {
+        const user = authService.getUser();
+        if (user) {
+          user.character_selected = true;
+          user.character = characterData;
+          localStorage.setItem('user', JSON.stringify(user));
+          return { user };
+        }
+      }
       throw error;
     }
   },

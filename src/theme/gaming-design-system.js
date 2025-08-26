@@ -64,10 +64,10 @@ export const gamingColors = {
 export const gamingTypography = {
   // Font Families
   fonts: {
-    heading: "'Bebas Neue', 'Oswald', sans-serif",  // Wide, bold font for headings
-    body: "'Inter', 'Roboto', sans-serif",           // Clean font for body
-    mono: "'JetBrains Mono', 'Fira Code', monospace", // Monospace for code/stats
-    display: "'Orbitron', 'Audiowide', sans-serif",   // Futuristic display font
+    heading: "'Bebas Neue', 'Oswald', 'Arial Black', sans-serif",  // Wide, bold font for headings
+    body: "'Inter', 'Roboto', 'Arial', sans-serif",           // Clean font for body
+    mono: "'JetBrains Mono', 'Fira Code', 'Courier New', monospace", // Monospace for code/stats
+    display: "'Orbitron', 'Audiowide', 'Impact', sans-serif",   // Futuristic display font
   },
 
   // Font Sizes

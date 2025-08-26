@@ -82,12 +82,17 @@ function App() {
         <Route path="/auth" component={AuthLayout} />
         
         {/* Character Selection Route - Protected */}
-        <PrivateRoute 
+        <Route 
           path="/character-selection" 
           exact
-          component={() => (
-            <CharacterSelection onComplete={handleCharacterSelect} />
-          )}
+          render={() => {
+            // Check authentication manually for character selection
+            if (!isAuthenticated) {
+              return <Redirect to="/auth/sign-in" />;
+            }
+            // Render CharacterSelection directly without wrapper
+            return <CharacterSelection onComplete={handleCharacterSelect} />;
+          }}
         />
         
         {/* Admin Routes - Protected and requires character */}

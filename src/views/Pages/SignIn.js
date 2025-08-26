@@ -108,13 +108,17 @@ function SignIn() {
         position: 'top',
       });
       
-      // Check if user has selected a character
-      if (response.user?.character_selected) {
-        history.push('/admin/dashboard');
-      } else {
-        history.push('/character-selection');
-      }
+      // Delay redirect slightly to avoid state update warning
+      setTimeout(() => {
+        // Check if user has selected a character
+        if (response.user?.character_selected) {
+          history.push('/admin/dashboard');
+        } else {
+          history.push('/character-selection');
+        }
+      }, 100);
     } catch (error) {
+      setIsLoading(false); // Only set loading false on error
       toast({
         title: 'Login Failed',
         description: error.response?.data?.message || 'Invalid credentials',
@@ -123,8 +127,6 @@ function SignIn() {
         isClosable: true,
         position: 'top',
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 

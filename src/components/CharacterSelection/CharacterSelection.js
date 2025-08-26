@@ -75,7 +75,6 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      pt="80px"
       initial={{ opacity: 0 }}
       animate={{ 
         opacity: isActive ? 1 : 0.4,
@@ -144,20 +143,22 @@ function CharacterSection({ index, isActive, onSelect, characterData }) {
       {/* Section number - minimalist approach */}
       <MotionBox
         position="absolute"
-        left={{ base: "30px", md: "50px" }}
+        left={{ base: "20px", md: "40px", lg: "60px" }}
         top="50%"
         transform="translateY(-50%)"
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+        zIndex={0}
       >
         <Text
-          fontSize={{ base: "8xl", md: "9xl", lg: "150px" }}
-          fontFamily={gamingTheme.typography.fonts.heading}
-          fontWeight={gamingTheme.typography.weights.black}
+          fontSize={{ base: "80px", md: "120px", lg: "150px" }}
+          fontFamily="'Bebas Neue', 'Arial Black', sans-serif"
+          fontWeight="900"
           color={gamingTheme.colors.accent.primary}
-          opacity={0.15}
+          opacity={0.12}
           lineHeight="1"
+          userSelect="none"
         >
           0{index + 1}
         </Text>
@@ -420,6 +421,7 @@ export default function CharacterSelection({ onComplete }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.5 }}
+          overflow="hidden"
         >
           {/* Fixed header with scrolling banner */}
           <MotionBox
@@ -427,7 +429,7 @@ export default function CharacterSelection({ onComplete }) {
             top="0"
             left="0"
             right="0"
-            zIndex="10000"
+            zIndex="10"
             h="80px"
             bg="white"
             borderBottom="3px solid black"
@@ -544,9 +546,9 @@ export default function CharacterSelection({ onComplete }) {
           <Box
             ref={scrollContainerRef}
             h="100vh"
-            pt="80px"
             overflowY="auto"
             onScroll={handleScroll}
+            position="relative"
             sx={{
               scrollSnapType: "none", // Disabled for manual control
               scrollBehavior: "auto", // Disabled for manual control

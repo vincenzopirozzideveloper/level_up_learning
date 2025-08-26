@@ -146,9 +146,12 @@ function SignUp() {
         position: 'top',
       });
       
-      // Redirect to character selection
-      history.push('/character-selection');
+      // Redirect to character selection with delay
+      setTimeout(() => {
+        history.push('/character-selection');
+      }, 100);
     } catch (error) {
+      setIsLoading(false); // Only set loading false on error
       toast({
         title: 'Registration Failed',
         description: error.response?.data?.message || 'Something went wrong',
@@ -162,8 +165,6 @@ function SignUp() {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
