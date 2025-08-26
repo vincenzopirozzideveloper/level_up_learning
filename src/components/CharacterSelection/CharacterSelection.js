@@ -65,7 +65,7 @@ function Loader() {
 // Character Section Component
 function CharacterSection({ index, isActive, onSelect, characterData }) {
   // Select the correct GLB file based on index
-  const modelUrl = `/vision-ui-dashboard-chakra/character_${index + 1}.glb`;
+  const modelUrl = `/character_${index + 1}.glb`;
   
   return (
     <MotionBox

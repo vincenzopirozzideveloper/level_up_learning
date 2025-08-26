@@ -55,14 +55,14 @@ var dashRoutes = [
         layout: "/admin",
       },
       {
-        path: "/signin",
+        path: "/sign-in",
         name: "Sign In",
         icon: <DocumentIcon color='inherit' />,
         component: SignIn,
         layout: "/auth",
       },
       {
-        path: "/signup",
+        path: "/sign-up",
         name: "Sign Up",
         icon: <RocketIcon color='inherit' />,
         secondaryNavbar: true,
